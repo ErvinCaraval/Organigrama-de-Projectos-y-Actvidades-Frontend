@@ -34,8 +34,8 @@ const TaskTablePage = () => {
       .then(response => {
         const tasksWithDates = response.data.map(task => ({
           ...task,
-          fecha_inicio: new Date(task.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: task.fecha_fin ? new Date(task.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(task.fecha_inicio).toISOString(),
+          fecha_fin: task.fecha_fin ? new Date(task.fecha_fin).toISOString() : null
         }));
         setTasks(tasksWithDates);
         setFilteredTasks(tasksWithDates);
@@ -63,8 +63,8 @@ const TaskTablePage = () => {
       .then(response => {
         const newTaskData = {
           ...response.data,
-          fecha_inicio: new Date(response.data.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(response.data.fecha_inicio).toISOString(),
+          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString() : null
         };
         setTasks([...tasks, newTaskData]);
         setNewTask({ nombre: '', descripcion: '', sin_terminar: true, terminado: false });
@@ -81,8 +81,8 @@ const TaskTablePage = () => {
       .then(response => {
         const updatedTask = {
           ...response.data,
-          fecha_inicio: new Date(response.data.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(response.data.fecha_inicio).toISOString(),
+          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString() : null
         };
         setTasks(tasks.map(task => task.tarea_id === id ? updatedTask : task));
         setSelectedTask(null);

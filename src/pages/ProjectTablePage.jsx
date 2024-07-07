@@ -5,7 +5,7 @@ import { getTask, updateTask, getAllTasks, deleteTask, createTask } from "../api
 
 const ProjectTablePage = () => {
   const [projects, setProjects] = useState([]);
-  const [newTask, setNewTask] = useState({ nombre: '', descripcion: '' });
+  const [newTask, setNewTask] = useState({ nombre: '', descripcion: '', fecha_inicio: '', fecha_fin: '' });
   const [selectedTask, setSelectedTask] = useState(null);
   const [editTask, setEditTask] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,8 +16,10 @@ const ProjectTablePage = () => {
       .then(response => {
         const projectsWithDates = response.data.map(project => ({
           ...project,
-          fecha_inicio: new Date(project.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: project.fecha_fin ? new Date(project.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(project.fecha_inicio).toISOString(),
+          fecha_fin: project.fecha_fin ? new Date(project.fecha_fin).toISOString() : null,
+          creado_en: new Date(project.creado_en).toISOString(),
+          actualizado_en: new Date(project.actualizado_en).toISOString()
         }));
         setProjects(projectsWithDates);
         setFilteredProjects(projectsWithDates);
@@ -41,11 +43,13 @@ const ProjectTablePage = () => {
       .then(response => {
         const newProject = {
           ...response.data,
-          fecha_inicio: new Date(response.data.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(response.data.fecha_inicio).toISOString(),
+          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString() : null,
+          creado_en: new Date(response.data.creado_en).toISOString(),
+          actualizado_en: new Date(response.data.actualizado_en).toISOString()
         };
         setProjects([...projects, newProject]);
-        setNewTask({ nombre: '', descripcion: '' });
+        setNewTask({ nombre: '', descripcion: '', fecha_inicio: '', fecha_fin: '' });
         toast.success('Task created successfully');
       })
       .catch(error => {
@@ -59,8 +63,10 @@ const ProjectTablePage = () => {
       .then(response => {
         const updatedProject = {
           ...response.data,
-          fecha_inicio: new Date(response.data.fecha_inicio).toISOString().slice(0, 16),
-          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString().slice(0, 16) : null
+          fecha_inicio: new Date(response.data.fecha_inicio).toISOString(),
+          fecha_fin: response.data.fecha_fin ? new Date(response.data.fecha_fin).toISOString() : null,
+          creado_en: new Date(response.data.creado_en).toISOString(),
+          actualizado_en: new Date(response.data.actualizado_en).toISOString()
         };
         setProjects(projects.map(project => project.proyecto_id === id ? updatedProject : project));
         setSelectedTask(null);
@@ -109,7 +115,7 @@ const ProjectTablePage = () => {
       <Card className="p-3 mb-3">
         <Form.Control
           type="text"
-          placeholder="Buscar por ID del Projecto "
+          placeholder="Buscar por ID del Proyecto"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="form-control"
@@ -167,7 +173,7 @@ const ProjectTablePage = () => {
                       onChange={handleInputChange}
                     />
                   ) : (
-                    new Date(project.fecha_inicio).toLocaleString()
+                    new Date(project.fecha_inicio).toLocaleString('es-CO', { timeZone: 'America/Bogota' })
                   )}
                 </td>
                 <td>
@@ -179,11 +185,11 @@ const ProjectTablePage = () => {
                       onChange={handleInputChange}
                     />
                   ) : (
-                    project.fecha_fin ? new Date(project.fecha_fin).toLocaleString() : 'N/A'
+                    project.fecha_fin ? new Date(project.fecha_fin).toLocaleString('es-CO', { timeZone: 'America/Bogota' }) : 'N/A'
                   )}
                 </td>
-                <td>{new Date(project.creado_en).toLocaleString()}</td>
-                <td>{new Date(project.actualizado_en).toLocaleString()}</td>
+                <td>{new Date(project.creado_en).toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</td>
+                <td>{new Date(project.actualizado_en).toLocaleString('es-CO', { timeZone: 'America/Bogota' })}</td>
                 <td>
                   {project.terminado ? (
                     <span className="text-success">Sí</span>
