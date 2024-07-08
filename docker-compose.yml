@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+    image: ervincaravaliibarra/frontend:latest
     container_name: CLIENTE
     working_dir: /app
     volumes:
